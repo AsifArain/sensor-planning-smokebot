@@ -1,0 +1,197 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{setup/jfrExamplee}
+\usepackage{setspace}
+\usepackage{setup/apalike}
+
+
+% --- Tikz ---
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usepackage{verbatim}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{positioning,shapes.misc} % for uneven round corner rectangles
+
+\usetikzlibrary{arrows.meta} % to draw customized arrow size
+
+\newlength\figureheight 
+\newlength\figurewidth
+
+\usetikzlibrary{plotmarks} 
+
+
+
+
+% --- fonts ---
+
+\usepackage{amsmath}
+%\usepackage[math]{kurier}
+% \usepackage{enumitem,showframe}
+\usepackage{amssymb}
+\usepackage{soul}
+\usepackage{nicefrac} % for inline fraction
+\usepackage{stmaryrd} % maps from
+
+
+% --- figure ---
+\usepackage{dblfloatfix}
+\usepackage{fixltx2e} % two column figure
+\usepackage{subfigure} % subfigure
+
+\usepackage{stackengine}
+
+%\usepackage{subcaption}
+\usepackage{blindtext}
+
+\usepackage[export]{adjustbox} %for box on figure
+
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+
+
+% --- Algorithm
+%\usepackage{algpseudocode}
+%\usepackage{algorithmicx}
+%\usepackage{algorithm}
+
+%\usepackage[]{algorithm2e}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{boxedminipage}
+
+\usepackage{amsthm}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\usepackage{longtable}
+
+\def\Var{\mathop{\rm Var}} % define variance symbol
+\def\pSPP{$\psi c$-SPP}
+
+
+
+% --- table ---
+\usepackage{multirow} % multi rows
+
+%\usepackage{array}
+%\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+%\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+%\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+% ---
+
+\usepackage{caption}
+%\usepackage[subrefformat=parens,labelformat=parens]{subcaption} %% provides subfigure
+\usepackage{tabularx} %% tabularx and multirow so that we can do nice subfigure layouts
+%\usepackage[margin=1in]{geometry}
+
+
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+% ---
+
+
+
+% --- list ---
+%http://texblog.org/2013/02/01/inline-lists-in-latex-using-paralist/
+%\documentclass[11pt]{article}
+\usepackage{paralist}
+%\begin{document}
+%This includes:
+%\begin{inparaenum}[1)]
+%\item first task,
+%\item second task and
+%\item third task
+%\end{inparaenum}
+%to be completed by the end of the month.
+%\end{document}
+
+%\documentclass[11pt]{article}
+%\usepackage{paralist}
+%\begin{document}
+%This includes:
+%\begin{inparaitem}
+%\item first task,
+%\item second task and
+%\item third task
+%\end{inparaitem}
+%to be completed by the end of the month.
+%\end{document}
+
+%\documentclass[11pt]{article}
+%\usepackage{paralist}
+%\begin{document}
+%This includes:
+%\begin{inparadesc}
+%\item[Task] first task,
+%\item[Task] second task and
+%\item[Task] third task
+%\end{inparadesc}
+%to be completed by the end of the month.
+%\end{document}
+% ---------------------------------------- %
+
+
+% --------------- frame box for text ------------------------------
+% 
+\newcommand\FramedBox[3]{%
+	\setlength\fboxsep{0pt}
+	\fbox{\parbox[t][#1][c]{#2}{\centering\scriptsize #3}}}
+
+
+\makeatletter
+\newcommand{\mybox}{%
+	\collectbox{%
+		\setlength{\fboxsep}{1pt}%
+		\fbox{\BOXCONTENT}%
+	}%
+}
+\makeatother  
+
+\newcommand{\cfbox}[2]{%
+	\colorlet{currentcolor}{.}%
+	{\color{#1}%
+		\fbox{\color{currentcolor}#2}}%
+}
+%----------------------------------------------------------------------
+
+
+% --- shorts
+\usepackage{xspace} % space after \newcommand
+%\newcommand{\dg}{$^\circ$\xspace} % degree
+\newcommand{\cSPP}{$conv$-SPP\xspace} % conv-SPP
+%\newcommand{\sSPP}{$\psi c$-SPP\xspace}
+\def\Var{\mathop{\rm Var}} % variance
+\def\xSPP{{\normalfont{$\mathsf{x} v t$-SPP}}\xspace} % xvt-SPP
+
+
+\newcommand{\dg}{$^\circ$\xspace} % degree
+\newcommand{\ddg}{^\circ} % degree
+%\newcommand{\cSPP}{$conv$-SPP\xspace} % conv-SPP
+%\newcommand{\sSPP}{$\psi c$-SPP\xspace}
+
+
+\DeclareMathOperator*{\argmin}{\arg\!\min} %argmin
+\DeclareMathOperator*{\argmax}{\arg\!\max} %argmax
+
+
+\definecolor{color-figbox}{gray}{1.0} % figure box color
+\def \figWidthSample {7.0cm} % figure width % 7.0cm
+\def \figWidthTestRecon {3.5cm} % figure width
+\def \figWidthCorridor {10.0cm} % figure width
+\def \figWidthForest {7.0cm} % figure width
+\def \figWidthCastings {12.0cm} % figure width
+
+
+
+
+% --- changes
+\usepackage[color=green]{changes} % highlight the changes
+
+
+%% Uncomment line below for double spacing
+%\doublespacing
+
+%this template built off template for NIPS 2004

@@ -1,0 +1,72 @@
+
+\section{Adaptive Sensor Planning for Exploration and Exploitation}
+
+
+\label{sec:exploration}
+
+%An efficient gas emission monitoring strategy requires to explore the environment for gas leak detections and to exploit the environment to accurately locate the gas distributions in the environment. 
+%An efficient gas emission monitoring strategy must provide solutions for exploration to detect gas leaks in the environment and exploitation to accurately locate the gas distributions.
+A gas emission monitoring strategy must provide solutions for the exploration and exploitation of the environment. The exploration is to detect gas leaks in the environment and exploitation is to accurately locate the gas distributions.
+The exploration and the exploitation can be conducted either step-wise in two different robotic tours, or in a combination of a single tour. In the step-wise scheme, first the environment is explored for the leak detections by providing full sensing coverage, and then an intensive sensing coverage is provided in the areas of interests to refine the reconstruction of gas distributions. In the combination of the both, the emission monitoring is started with a task of exploration of gas detection, meanwhile the local areas of high gas concentrations are exploited with a focused sensing coverage whenever a gas leak is detected. The first scheme identifies better the areas of interest to exploit as the exploration is conducted beforehand, hence an optimal list of sensor configurations can be found. However, the overall solution of the step-wise scheme is tend to be more expensive than the single-tour scheme as both the steps are performed in two different robotic tours. The single-tour scheme on the other hand, may provide little expensive exploitation solutions due to high entropy of the areas of interest but the overall solution is less expensive as both the tasks are performed in a single robotic tour. 
+
+To solve the problem, we represent the environment in a Cartesian grid of occupied and unoccupied cells. The candidate sensing configurations are placed in the middle of an unoccupied cell, and their sensing coverage can be captured in a binary matrix $V$ of size number of candidate sensing configurations times the cells to be covered $\mathcal{S}$.
+
+
+% --- one-step algorithm ---
+\begin{algorithm}
+	\caption{ad-SPP}
+	\label{alg:1se}
+	\begin{algorithmic}[1]
+		%\STATE Compute initial $\mathcal{S}$ and $V$;
+		\STATE Find $\pi_{\mathsf{detect}}$ for the initial $\mathcal{S}$; 
+		%\STATE Reduce $\pi_{\mathsf{detect}}$ that meets the minimum coverage criteria;
+		%\STATE $\pi = \pi_{\mathsf{detect}} \cup \pi_{\mathsf{tomo}}$
+		
+		\WHILE{$\pi_{\mathsf{detect}} \neq \emptyset$}
+		\STATE Execute the configuration $c_1 \in \pi_{\mathsf{detect}}$;
+		\STATE $\pi_{\mathsf{detect}} \mapsfrom (\pi_{\mathsf{detect}} - c_1) $, and $\mathcal{S} \mapsfrom (\mathcal{S} - \mathcal{S}{c_1} ) $;
+		\IF {High concentration is reported}		
+		\STATE Estimate $\mathpzc{H}_c$;
+		\STATE Find $\pi_{\mathsf{tomo}}$ for $\mathpzc{H}_c$;
+		
+		\WHILE{$\pi_{\mathsf{tomo}} \neq \emptyset$}
+		\STATE Execute the configuration $c_1 \in \pi_{\mathsf{tomo}}$;
+		\STATE $\pi_{\mathsf{tomo}} \mapsfrom (\pi_{\mathsf{tomo}} - c_1) $, and $\mathcal{S} \mapsfrom (\mathcal{S} - \mathcal{S}{c_1} ) $;
+		\STATE Re-estimate $\mathpzc{H}_c$ and replan $\pi_{\mathsf{tomo}}$ accordingly;
+		\ENDWHILE
+		
+		\STATE Find new $\pi_{\mathsf{detect}}$ for the updated $\mathcal{S}$;% for the full sensing coverage;				
+		\ENDIF		
+		\ENDWHILE		
+	\end{algorithmic}
+	\vskip 2pt
+\end{algorithm}
+
+
+
+
+A sensor planning solution for exploration is $\pi_{\mathsf{detect}}$, which is a list of sensing configurations that provides the desired sensing coverage. The solution $\pi_{\mathsf{detect}}$ is a result of an optimization problem in Eq. \ref{eq:detect}. Where $C$ is a binary decision vector of candidate sensing configurations, and $\mathcal{C}$ is the sensing coverage, which is equals to or above a set threshold $\mathfrak{n}$.
+
+\begin{equation}
+\pi_\mathsf{detect} = \displaystyle\argmin_{} \; |C| \;\; \mbox{s.t.} \;\; \mathcal{C} \ge \mathfrak{n}
+\label{eq:detect}
+\end{equation}
+
+For the desired sensing coverage less than 100\% ($\mathfrak{n} < 1$), first we solve the optimization problem for the full sensing coverage ($\mathfrak{n} \geq 1$) and then iteratively reduce the configurations in the list $\pi_\mathsf{detect}$ until the minimum desired sensing coverage can not be guaranteed. Finally, $\pi_\mathsf{detect}$ is sorted for the minimum traveling distance between the configurations to execute. %The final list is sorted with the traveling distance. % such that any next configuration is of the least distance.
+
+Similarly, a sensor planning solution for the exploitation is $\pi_{\mathsf{tomo}}$, which aims to provide better reconstruction quality of gas distributions in a local area. In order to obtain maximum expected reconstruction quality (ERQ), the areas of interests need to be sampled from different view points and the sensing configurations need to be placed in a way that the desired sensing overlaps are obtained. Eq. \ref{eq:tomo} is the optimization problem for the exploitation, where $\mathcal{Q}$ is ERQ.
+
+
+\begin{equation}
+\pi_\mathsf{tomo} = \displaystyle\argmin_{} \; |C| \;\; \mbox{s.t.} \;\; \mathcal{Q} \ge \mathfrak{n}
+\label{eq:tomo}
+\end{equation}
+
+
+
+
+
+
+Given the above solutions for the exploration and exploitation, our single-tour sensor planning strategy is summarized in Algorithm \ref{alg:1se}. We find the initial solution $\pi_{\mathsf{detect}}$ for all the unoccupied cells to be covered $\mathcal{S}$, and sample the environment by executing the first configuration in the list. If a high gas concentration is detected, then $\pi_{\mathsf{tomo}}$ is computed for all the hotspots in the local area. The plan $\pi_{\mathsf{tomo}}$ is iteratively executed and improved for the each selected configuration. At the end of any local exploitation process, an updated $\pi_{\mathsf{detect}}$ is computed for exploration of the remaining uncovered area. This process continues until no configuration is left in the exploration list $\pi_{\mathsf{detect}}$.
+
+ 
