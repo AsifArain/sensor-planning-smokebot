@@ -9,7 +9,7 @@ A surveillance task for the gas emission monitoring includes sensing coverage to
 We perform the gas emission monitoring task using a mobile robot equipped with a spectroscopy-based remote gas sensor (Fig.~\ref{fig:gasbot}). 
 In particular, we use a Tunable Diode Laser Absorption Spectroscopy (TDLAS), which can collect integral concentrations along the line-of-sight.
 In our setup, the remote gas sensor installed on the mobile robot is actuated using a pan-tilt unit.
-This means it can project optical beams in different directions, and therefore, a large circular sector can be sampled at a particular pose in the environment, which we referred as a \textit{sensing configuration} ($c$). 
+This means it can project optical beams in different directions, and therefore, a large circular sector ($r,\phi$) can be sampled at a particular pose $(x,y,\theta)$ in the environment, which we refer as a \textit{sensing configuration} ($c$). 
 
 
 
@@ -19,7 +19,7 @@ This means it can project optical beams in different directions, and therefore, 
 \input{sections/fig-gasbot-conf}
 %*******************************************************************
 
-A robotic solution for the surveillance task is a tour of selected sensing configurations $\{c_1,c_2,..,c_n\}$to sample the environment. An efficient plan consists of least number of sensing configurations and minimum traveling distance, and yet provides a surveillance that result into maximum sensing coverage and high quality reconstructions of gas distribution. % between the configurations are minimized so that the overall sensing are least environment is sampled
+A robotic solution for the surveillance task is a tour of selected sensing configurations $\{c_1,c_2,..,c_n\}$ to sample the environment. An efficient plan consists of least number of sensing configurations and minimum traveling distance, and yet provides a surveillance that result into maximum sensing coverage and high quality reconstructions of gas distribution. % between the configurations are minimized so that the overall sensing are least environment is sampled
 %Our sensing planning algorithm provides an efficient sensing coverage in this regard.
 
 %** We define sensing configuration as collecting integral measurements within a circular sector ($r,\phi$) by measuring along $s$ equally spaced beams of length $r$ inside the field of view $\phi$ at pose ($x, y, \theta$), see Fig.~\ref{fig:conf}. **
