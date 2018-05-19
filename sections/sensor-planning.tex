@@ -26,8 +26,8 @@ To solve the problem, we represent the environment in a Cartesian grid of occupi
 		\STATE Execute the configuration $c_1 \in \pi_{\mathsf{detect}}$;
 		\STATE $\pi_{\mathsf{detect}} \mapsfrom (\pi_{\mathsf{detect}} - c_1) $, and $\mathcal{S} \mapsfrom (\mathcal{S} - \mathcal{S}{c_1} ) $;
 		\IF {High concentration is reported}		
-		\STATE Estimate $\mathpzc{H}_c$;
-		\STATE Find $\pi_{\mathsf{tomo}}$ for $\mathpzc{H}_c$;
+		%\STATE Estimate $\mathpzc{H}_c$;
+		\STATE Find $\pi_{\mathsf{tomo}}$; % for $\mathpzc{H}_c$;
 		
 		\WHILE{$\pi_{\mathsf{tomo}} \neq \emptyset$}
 		\STATE Execute the configuration $c_1 \in \pi_{\mathsf{tomo}}$;
